@@ -1,8 +1,14 @@
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
 const express  = require("express");
 const bodyparser = require("body-parser");
 const cors = require('cors');
 const async = require("async");
 
+const client = require("twilio")(process.env.TWILIO_SID, process.env.TWILIO_TOKEN)
+const FROM_NUMBER = process.env.FROM_NUMBER || "+18137347245";
 const server = express();
 
 server.use(bodyparser.json());
@@ -30,7 +36,15 @@ server.post("/send/message", (req, res) => {
         const _task = numbers.map(n => {
             return (next) => {
                 console.log("sending number to "+ n);
-                next();
+                client.messages.create({
+                    body:"Testing", 
+                    to:n,
+                    from:FROM_NUMBER
+                }).then(message =>{
+                    next(null, message);
+                }).catch(err => {
+                    next(err);
+                })
             }
         })
         async.parallel(_task, (err) => {
