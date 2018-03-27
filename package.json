@@ -1,0 +1,17 @@
+{
+  "name": "metro-node-texting",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.3"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "watch": "nodemon server.js",
+    "deploy": "git push heroku master"
+  }
+}
