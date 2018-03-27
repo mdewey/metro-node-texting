@@ -54,11 +54,11 @@ server.post("/send/message", (req, res) => {
     }
 
     const getNumbers = (next) => {
-        base('Volunteers')
+        base(process.env.AIRTABLE_TABLE)
         .select({
             // Selecting the first 3 records in All Applicants:
             maxRecords: 100,
-            view: "Grid view"
+            view: process.env.AIRTABLE_VIEW
         })
         .eachPage(function page(records, fetchNextPage) {
             // This function (`page`) will get called for each page of records.
