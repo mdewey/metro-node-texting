@@ -1,6 +1,8 @@
 const express  = require("express");
 const bodyparser = require("body-parser");
-const cors = require('cors')
+const cors = require('cors');
+const async = require("async");
+
 const server = express();
 
 server.use(bodyparser.json());
@@ -18,7 +20,28 @@ server.post("/send/message", (req, res) => {
         _number
     }
 
-    return res.json(_rv);
+    const getNumbers = (next) => {
+        const _rv = ["8144219298"]
+
+        next(null, _rv);
+    }
+
+    const sendMessages = (numbers, next) => {
+        const _task = numbers.map(n => {
+            return (next) => {
+                console.log("sending number to "+ n);
+                next();
+            }
+        })
+        async.parallel(_task, (err) => {
+            next (err);
+        })
+    }
+    console.log("starting")
+    async.waterfall([getNumbers, sendMessages], (err) => {
+        return res.json({err, toNumber: _number});
+    })
+
 })
 
 server.listen(process.env.PORT || 8080, (err) => {
