@@ -37,7 +37,7 @@ server.post("/send/message", (req, res) => {
             return (next) => {
                 console.log("sending number to "+ n);
                 client.messages.create({
-                    body:"Testing", 
+                    body:"Someone needs help, Please contact the at " + _number, 
                     to:n,
                     from:FROM_NUMBER
                 }).then(message =>{
