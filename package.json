@@ -5,6 +5,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "airtable": "^0.5.2",
     "async": "^2.6.0",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
